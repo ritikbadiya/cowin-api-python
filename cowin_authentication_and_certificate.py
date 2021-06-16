@@ -1,10 +1,10 @@
 import json
 import requests
 import hashlib
-browser_header = {'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0'}
+# add your user agent here
+browser_header = {'User-Agent':'<your user agent>'}
 
-def generate_otp(mno=9399048394):
-    browser_header = {'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0'}
+def generate_otp(mno):
     url='https://cdn-api.co-vin.in/api/v2/auth/public/generateOTP'
     data = '{"mobile":"'+str(mno)+'"}'
     res= requests.post(url,  headers=browser_header, data=data)
@@ -50,7 +50,11 @@ def get_certificate(res):
 def generate_certificate(res):
     with open("my_file.txt", "wb") as binary_file:
         binary_file.write(res.content)
-    with open('new.pdf', 'wb') as file:
+    with open('certificate.pdf', 'wb') as file:
         for line in open('my_file.txt', 'rb').readlines():
             file.write(line)
-generate_certificate(get_certificate(confirm_otp(generate_otp())))
+
+response=generate_otp(input('mno'))
+response=confirm_otp(response)
+response=get_certificate(response)
+response=generate_certificate(response)
