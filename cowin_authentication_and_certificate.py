@@ -38,7 +38,7 @@ def get_certificate(res):
     md1["Authorization"] = "Bearer {}".format(md['token'])
     md1['accept']='pdf'
     url='https://cdn-api.co-vin.in/api/v2/registration/certificate/public/download'
-    data={'beneficiary_reference_id:  ':beneficiary_reference_id}
+    data={'beneficiary_reference_id':beneficiary_reference_id}
     res=requests.get(url,headers=md1,params=data)
     if(res.status_code==200):
         print('fatched_successfully')
